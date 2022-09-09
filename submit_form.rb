@@ -2,6 +2,7 @@
 require 'net/http'
 require 'uri'
 require 'json'
+require 'pry-rails'
 
 body = {"version":"0",
   "preEnrollApplId":"",
@@ -130,7 +131,7 @@ body = {"version":"0",
   ],
   "appointment":{
     "id": "null",
-    "appointmentDate":"2022-09-12T15:33:09.520Z",
+    "appointmentDate":"2022-09-14T15:33:09.520Z",
     "timeSlot":"14:00",
     "locationId":79,
     "isVip":false
@@ -149,11 +150,26 @@ request.content_type = "application/json"
 request["location"] = "3ff2b8fafe3bd73b627e8f295ea34f31"
 request.body = JSON.dump(body) 
 
-response = http.request(request)
-
-puts response.body
-
-
+response = nil;
+while true do 
+  sleep(1)
+  begin 
+    response = http.request(request)
+    if response.code.eql?"200"
+      p "Success!!!"
+      p response.body
+      break 
+    else
+      p "New status code #{response.code}."
+      p response.body
+      p "Trying again..."
+      # break
+    end
+  rescue
+    p "Failed, Trying again..."
+  end
+end
+# puts response.body
 
 # curl 'https://emrtds.nepalpassport.gov.np/iups-api/eservices/perform/' \
 #   -H 'Content-Type: application/json' \

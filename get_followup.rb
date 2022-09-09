@@ -2,6 +2,7 @@
 require 'net/http'
 require 'uri'
 require 'json'
+require 'pry-rails'
 
 uri = URI.parse("https://emrtds.nepalpassport.gov.np/iups-api/eservices/followup/")
 body = {
@@ -17,8 +18,19 @@ request = Net::HTTP::Post.new(uri.request_uri)
 request.content_type = "application/json"
 request.body = JSON.dump(body)
 
-response = http.request(request)
+response = nil;
+while true do 
+  sleep(1)
+  begin 
+    response = http.request(request)
+    break if response.code == "200"
 
+  rescue
+    p "Failed, Trying again..."
+  end
+end
+# response = http.request(request)
+# binding.pry
 puts response.body
 
 # Curl Syntax
