@@ -1,0 +1,66 @@
+# Example configuration file
+# Copy this to config.yml and fill in your details
+
+# Location settings
+location_id: 79  # DOP (Tripureshwor) - see get_dates.rb for other locations
+enrollment_center_code: "DOP"  # Enrollment center code
+
+# Performance settings (optional - defaults are optimized for speed)
+# concurrent_requests: 5  # Number of parallel requests (default: 5)
+# poll_interval: 0.05     # Seconds between polling attempts (default: 0.05 = 50ms)
+
+# File paths (relative to appointment_automation directory or absolute paths)
+citizenship_front_path: "../abhishek_files/front.jpg"
+citizenship_back_path: "../abhishek_files/back.jpg"
+# national_id_path: "../abhishek_files/nationalid.jpg"  # Optional
+
+# Location token (may need to be obtained from session)
+# Leave empty to use default
+location_token: ""
+
+# Form data - Fill in your personal information
+form_data:
+  version: "0"
+  preEnrollApplId: ""
+  documentTypeOthers: "test"
+  lastName: "BHATTA"
+  firstName: "ABHISHEK"
+  birthCountry: "NPL"
+  dateOfBirth: "1994-09-24"  # Gregorian date
+  dateOfBirthBS: "2051-06-08"  # Bikram Sambat date
+  birthDistrict: "KNP"  # Your birth district code
+  citizenIssuePlaceDistrict: "KNP"  # Citizenship issue district
+  contactLastName: "BHATTA"
+  contactFirstName: "KESHAB"
+  mainAddressCountry: "NPL"
+  citizenIssueDateBS: "2068-06-27"  # Bikram Sambat
+  gender: "M"  # M or F
+  nationality: "NPL"
+  fatherLastName: "BHATTA"
+  fatherFirstName: "KESHAB"
+  motherLastName: "BHATTA"
+  motherFirstName: "KHAGESHWORI"
+  homePhone: "+977 9843288950"
+  email: "aviisekh@gmail.com"
+  contactMunicipality: "LTP-MLX00A"  # Municipality code, Mahalaxmi Municipality
+  contactCountry: "NPL"
+  contactDistrict: "LTP"
+  mainAddressWard: "05"
+  contactWard: "5"
+  mainAddressMunicipality: "LTP-MLX00A"
+  mainAddressDistrict: "LTP"
+  mainAddressProvince: "BGM"  # Province code
+  contactProvince: "BGM"
+  mainAddressStreetVillage: "TIKATHALI"
+  nin: "7667514666"
+  serviceCode: "PP_RENEWAL"  # or PP_RENEWAL
+  documentTypeCode: "PP"
+  state: "CREATED"
+  contactStreetVillage: "TIKATHALI"
+  contactPhone: "9848726300"
+  citizenNum: "75100113562"
+  isExactDateOfBirth: "true"
+  currentTDNum: "09409094" # current passport number required for renewal
+  currentTDIssueDate: "2015-12-18" # required for renewal
+  currenttdIssuePlaceDistrict: "KNP" #required for renewal
+

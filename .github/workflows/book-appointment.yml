@@ -1,0 +1,72 @@
+name: Book Passport Appointment
+
+on:
+  schedule:
+    # Run daily at 4:55 PM Nepal Time (UTC+5:45)
+    # Nepal is UTC+5:45, so 4:55 PM NPT = 11:10 AM UTC
+    # Adjust if booking window opens at different time
+    - cron: '10 11 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  book-appointment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60  # Job timeout
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+      
+      - name: Install dependencies
+        run: |
+          cd appointment_automation
+          bundle install
+      
+      - name: Setup configuration
+        run: |
+          cd appointment_automation
+          if [ ! -f config/config.yml ]; then
+            echo "❌ config/config.yml not found!"
+            echo "Please create config/config.yml from config/config.example.yml"
+            echo "You can add it as a GitHub secret or repository secret."
+            exit 1
+          fi
+        env:
+          CONFIG_CONTENT: ${{ secrets.CONFIG_YML }}
+      
+      - name: Create config file from secret
+        if: env.CONFIG_CONTENT != ''
+        run: |
+          cd appointment_automation
+          echo "$CONFIG_CONTENT" > config/config.yml
+        env:
+          CONFIG_CONTENT: ${{ secrets.CONFIG_YML }}
+      
+      - name: Copy required files
+        run: |
+          # Copy citizenship files to appointment_automation directory
+          # Adjust paths as needed
+          mkdir -p appointment_automation/assets
+          cp beemla/*.jpeg appointment_automation/assets/ 2>/dev/null || true
+          cp beemla/*.jpg appointment_automation/assets/ 2>/dev/null || true
+      
+      - name: Run appointment automation
+        run: |
+          cd appointment_automation
+          chmod +x scripts/run_automation.rb
+          ruby scripts/run_automation.rb
+      
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: appointment-logs
+          path: appointment_automation/*.log
+          if-no-files-found: ignore
+

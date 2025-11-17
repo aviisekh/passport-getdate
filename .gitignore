@@ -1,0 +1,27 @@
+# Configuration files with sensitive data
+config/config.yml
+
+# Logs
+*.log
+
+# Ruby
+*.gem
+*.rbc
+.bundle
+vendor/bundle
+.ruby-version
+.ruby-gemset
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+
+

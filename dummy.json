@@ -1,0 +1,70 @@
+FORM SUBMISSION REQUEST BODY:
+{"version":"0","preEnrollApplId":"","documentTypeOthers":"test","lastName":"BHATTA","firstName":"ABHISHEK","birthCountry":"NPL",
+"dateOfBirth":"1994-09-24","dateOfBirthBS":"2051-06-08","birthDistrict":"KNP","citizenIssuePlaceDistrict":"KNP","contactLastName":"BHATTA",
+"contactFirstName":"KESHAB","mainAddressCountry":"NPL","citizenIssueDateBS":"2068-06-27","gender":"M","nationality":"NPL","fatherLastName":"BHATTA",
+"fatherFirstName":"KESHAB","motherLastName":"BHATTA","motherFirstName":"KHAGESHWORI","homePhone":"+977 9843288950","email":"aviisekh@gmail.com",
+"contactMunicipality":"LTP-MLX00A","contactCountry":"NPL","contactDistrict":"LTP","mainAddressWard":"05","contactWard":"5","mainAddressMunicipality":"LTP-MLX00A",
+"mainAddressDistrict":"LTP","mainAddressProvince":"BGM","contactProvince":"BGM","mainAddressStreetVillage":"TIKATHALI","nin":"7667514666","serviceCode":"PP_RENEWAL",
+"documentTypeCode":"PP","state":"CREATED","contactStreetVillage":"TIKATHALI","contactPhone":"9848726300",
+
+"currentTDNum":"09409094","currentTDIssueDate":"2015-12-18","currenttdIssuePlaceDistrict":"KNP","citizenNum":"75100113562","isExactDateOfBirth":"true",
+"pieces":[
+    {"name":"Citizenship Certificate Front","mimeType":"image/jpeg","label":"Citizenship Certificate Front","type":"Citizenship Certificate",
+    "value":"052909c803464b957f53b1c5680560041e4ecca40b1c86d67ea76fd5e3dba585"},
+    {"name":"Citizenship Certificate Back","mimeType":"image/jpeg","label":"Citizenship Certificate Back","type":"Citizenship Certificate",
+    "value":"1b04a7fde35a7d6914934826cc61e6d14ef8f46045211d600fe2f6d47e9a9be3"}],
+"appointment":{"id":10579662,"appointmentDate":"2025-11-13T00:00:00.000Z","timeSlot":"10:30","locationId":17,"isVip":false},
+"enrollementCenterCode":"MKR"}
+
+
+{"version":"0","preEnrollApplId":"","documentTypeOthers":"test","lastName":"BHATTA","firstName":"ABHISHEK","birthCountry":"NPL",
+"dateOfBirth":"1994-09-24","dateOfBirthBS":"2051-06-08","birthDistrict":"KNP","citizenIssuePlaceDistrict":"KNP","contactLastName":"BHATTA",
+"contactFirstName":"KESHAB","mainAddressCountry":"NPL","citizenIssueDateBS":"2068-06-27","gender":"M","nationality":"NPL","fatherLastName":"BHATTA",
+"fatherFirstName":"KESHAB","motherLastName":"BHATTA","motherFirstName":"KHAGESHWORI","homePhone":"+977 9843288950","email":"aviisekh@gmail.com",
+"contactMunicipality":"LTP-MLX00A","contactCountry":"NPL","contactDistrict":"LTP","mainAddressWard":"05","contactWard":"5","mainAddressMunicipality":"LTP-MLX00A",
+"mainAddressDistrict":"LTP","mainAddressProvince":"BGM","contactProvince":"BGM","mainAddressStreetVillage":"TIKATHALI","nin":"7667514666","serviceCode":"PP_RENEWAL",
+"documentTypeCode":"PP","state":"CREATED","contactStreetVillage":"TIKATHALI","contactPhone":"9848726300",
+
+"citizenNum":"75100113562", "isExactDateOfBirth":"true","currentTDNum":"09409094","currentTDIssueDate":"2015-12-18","currenttdIssuePlaceDistrict":"KNP",
+
+"pieces":
+  [
+    {"name":"Citizenship Certificate Front","mimeType":"image/jpeg","label":"Citizenship Certificate Front","type":"Citizenship Certificate",
+    "value":"b4d86aab3829f013f34fb2ba59d35697a012db9bd819362a7ab596ae4df7754e"},
+    {"name":"Citizenship Certificate Back","mimeType":"image/jpeg","label":"Citizenship Certificate Back","type":"Citizenship Certificate",
+    "value":"70d893dfe5de305e02dd66eea8a021f52feb136b51998ec542b1b9a6dfff3df6"}],
+ "enrollementCenterCode":"MKR",
+ "appointment":{"id":10599254, "appointmentDate":"2025-11-16T03:15:00Z", "timeSlot":"09:00", "locationId":17, "isVip":false}}
+
+
+Request header has captchaid and captchatext:
+
+Perform response body:
+{
+    "requestNumber": "30010576-d10d-4c52-bf42-1cdc09f1628d",
+    "appointmentId": 10579662
+}
+
+
+FollowUp at: POST: https://emrtds.nepalpassport.gov.np/iups-api/eservices/followup/
+Payload: {requestNumber: "30010576-d10d-4c52-bf42-1cdc09f1628d", birthDate: "1994-09-24"}
+
+Response
+[
+    {
+        "status": "CREATED",
+        "creationDate": "2025-11-12T07:01:34.629",
+        "statusHistory": [
+            {
+                "status": "CREATED",
+                "creationDate": "2025-11-12T07:01:34.653"
+            }
+        ],
+        "requestNumber": "30010576-d10d-4c52-bf42-1cdc09f1628d",
+        "documentTypeCode": "PP",
+        "requestForm": null,
+        "birthDate": "1994-09-24",
+        "appointmentRef": 10579662,
+        "eserviceCode": "PP_RENEWAL"
+    }
+]
