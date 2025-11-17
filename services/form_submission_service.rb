@@ -21,26 +21,15 @@ class FormSubmissionService
   def submit_form(appointment_data)
     log("Preparing form submission...")
     # Upload files if needed (only once, reuse for all attempts)
-    # @file_references ||= upload_required_files
+    @file_references ||= upload_required_files
     
     # Prepare form data
-    # form_data = build_form_data(@file_references)
+    form_data = build_form_data(@file_references)
+    form_data = form_data.merge(appointment: appointment_data)
 
-    base_form_data = @config[:form_data] || {}
-    pieces = [{"name":"Citizenship Certificate Front","mimeType":"image/jpeg","label":"Citizenship Certificate Front","type":"Citizenship Certificate","value":"bea6b1bc4cbbfa69d720b1c351655de73c95d86cd126a243dd6d57f8e8d14c65"},{"name":"Citizenship Certificate Back","mimeType":"image/jpeg","label":"Citizenship Certificate Back","type":"Citizenship Certificate","value":"0c47520efe27fa5d1f11a80aef50e60f6095994539782f09db18502e587d6cb1"}]
-    base_form_data.merge!(
-      "pieces" => pieces,
-      "enrollementCenterCode" => @config[:enrollment_center_code] || "DOP"
-    )
-    # form_data = base_form_data.merge(appointment_data)
-    form_data = {"version":"0","preEnrollApplId":"","documentTypeOthers":"test","lastName":"BHATTA","firstName":"ABHISHEK","birthCountry":"NPL","dateOfBirth":"1994-09-24","dateOfBirthBS":"2051-06-08","birthDistrict":"KNP","citizenIssuePlaceDistrict":"KNP","contactLastName":"BHATTA","contactFirstName":"KESHAB","mainAddressCountry":"NPL","citizenIssueDateBS":"2068-06-28","gender":"M","nationality":"NPL","fatherLastName":"BHATTA","fatherFirstName":"KESHAB","motherLastName":"BHATTA","motherFirstName":"KHAGESHWORI","homePhone":"+977 9843288950","email":"aviisekh@gmail.com","contactMunicipality":"LTP-MLX00A","contactCountry":"NPL","contactDistrict":"LTP","mainAddressWard":"05","contactWard":"05","mainAddressMunicipality":"LTP-MLX00A","mainAddressDistrict":"LTP","mainAddressProvince":"BGM","contactProvince":"BGM","mainAddressStreetVillage":"TIKATHALI","nin":"7667514666","serviceCode":"PP_RENEWAL","documentTypeCode":"PP","state":"CREATED","contactStreetVillage":"TIKATHALI","contactPhone":"9848726300","currentTDNum":"09409094","currentTDIssueDate":"2015-12-18","currenttdIssuePlaceDistrict":"KNP","citizenNum":"75100113562","isExactDateOfBirth":"true",
-    "pieces":[{"name":"Citizenship Certificate Front","mimeType":"image/jpeg","label":"Citizenship Certificate Front","type":"Citizenship Certificate","value":"bea6b1bc4cbbfa69d720b1c351655de73c95d86cd126a243dd6d57f8e8d14c65"},{"name":"Citizenship Certificate Back","mimeType":"image/jpeg","label":"Citizenship Certificate Back","type":"Citizenship Certificate","value":"0c47520efe27fa5d1f11a80aef50e60f6095994539782f09db18502e587d6cb1"}],
-    "enrollementCenterCode":"DOP",
-    "appointment":{"id":10601649,"appointmentDate":"2025-11-16T00:00:00.000Z","timeSlot":"11:30","locationId":79,"isVip":false}}
-
+    
     # Get location token (this might be from a previous step or session)
-    # location_token = @config[:location_token] || generate_location_token
-    location_token = "1a73dff26b66f5dd67403e250379bd80"
+    location_token = @config[:location_token] || generate_location_token
     
     # Try to submit form, handling captcha if needed
     max_captcha_attempts = 3
@@ -63,7 +52,6 @@ class FormSubmissionService
       log("Submitting form...")
       result = @api_service.submit_form(
         form_data, 
-        appointment_data, 
         location_token,
         captcha_id: captcha_id,
         captcha_text: captcha_text

@@ -26,15 +26,11 @@ class AppointmentAutomator
     @poll_interval = config[:poll_interval] || DEFAULT_POLL_INTERVAL
     
     # Create multiple API service instances with faster retry settings for concurrent requests
-    @api_services = Array.new(@concurrent_requests) do
-      PassportApiService.new(retry_delay: DEFAULT_RETRY_DELAY, max_retries: MAX_RETRIES)
-    end
+    @api_service = PassportApiService.new(retry_delay: DEFAULT_RETRY_DELAY, max_retries: MAX_RETRIES)
     @location_id = config[:location_id] || LOCATION_DOP
     @target_date = nil
-  end
+  end 
 
-  # Main method to run the automation
-  # @param use_simple [Boolean] If true, uses simple sequential polling. If false, uses concurrent threading.
   def run
     log("Starting appointment automation...")
     log("Target location: DOP (ID: #{@location_id})")
@@ -42,14 +38,14 @@ class AppointmentAutomator
     log("Poll interval: #{@poll_interval} seconds")
     
     # Calculate target date (tomorrow)
-    @target_date = Date.today + 2
+    @target_date = Date.today + 1
     log("Target appointment date: #{@target_date}")
     
     # Wait until 5pm today
     # wait_until_booking_window
     
     # Step 1: Book appointment using appropriate booker
-    appointment_data = book_appointment
+    appointment_data = {}#book_appointment
     
     # Step 2: Submit form with the booked appointment
     if appointment_data
@@ -73,10 +69,8 @@ class AppointmentAutomator
 
   # Book appointment using sequential polling
   def book_appointment
-    api_service = @api_services[0]
-    
     booker = AppointmentBookerService.new(
-      api_service: api_service,
+      api_service: @api_service,
       location_id: @location_id,
       target_date: @target_date,
       poll_interval: @poll_interval
@@ -90,7 +84,7 @@ class AppointmentAutomator
     log("Submitting application form...")
     
     form_service = FormSubmissionService.new(
-      api_service: @api_services[0],
+      api_service: @api_service,
       config: @config
     )
     
@@ -102,7 +96,7 @@ class AppointmentAutomator
     log("Creating follow-up entry...")
     
     followup_service = FollowupService.new(
-      api_service: @api_services[0],
+      api_service: @api_service,
       config: @config
     )
     

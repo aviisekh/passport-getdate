@@ -56,7 +56,7 @@ class AppointmentBookerService
           log("🎯 SLOTS FOUND! Attempt #{attempt}: #{available_slots.length} slot(s) available - #{slot_details}")
           
           # Try to book the first available slot
-          slot_to_book = available_slots.first
+          slot_to_book = available_slots.last
           log("Attempting to book slot: #{slot_to_book['name'] || slot_to_book[:name]}")
           
           begin

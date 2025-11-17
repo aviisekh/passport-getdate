@@ -127,14 +127,22 @@ class PassportApiService
 
   # Submit the passport application form
   # @param form_data [Hash] The form data to submit
-  # @param appointment_data [Hash] The appointment data
   # @param location_token [String] The location token
   # @param captcha_id [String] The captcha ID from refresh endpoint
   # @param captcha_text [String] The captcha text entered by user
-  def submit_form(form_data, appointment_data, location_token, captcha_id: nil, captcha_text: nil)
+  def submit_form(form_data={}, location_token="", captcha_id: nil, captcha_text: nil)
     uri = URI.parse("#{BASE_URL}/eservices/perform/")
-    body = form_data.merge(appointment: appointment_data)
-   
+    body = form_data
+
+    # body = {"version":"0","preEnrollApplId":"","documentTypeOthers":"test","lastName":"BHATTA","firstName":"ABHISHEK","birthCountry":"NPL","dateOfBirth":"1994-09-24","dateOfBirthBS":"2051-06-08","birthDistrict":"KNP","citizenIssuePlaceDistrict":"KNP","contactLastName":"BHATTA","contactFirstName":"KESHAB","mainAddressCountry":"NPL","citizenIssueDateBS":"2068-06-28","gender":"M","nationality":"NPL","fatherLastName":"BHATTA","fatherFirstName":"KESHAB","motherLastName":"BHATTA","motherFirstName":"KHAGESHWORI","homePhone":"+977 9843288950","email":"aviisekh@gmail.com","contactMunicipality":"LTP-MLX00A","contactCountry":"NPL","contactDistrict":"LTP","mainAddressWard":"05","contactWard":"05","mainAddressMunicipality":"LTP-MLX00A","mainAddressDistrict":"LTP","mainAddressProvince":"BGM","contactProvince":"BGM","mainAddressStreetVillage":"TIKATHALI","nin":"7667514666","serviceCode":"PP_RENEWAL","documentTypeCode":"PP","state":"CREATED","contactStreetVillage":"TIKATHALI","contactPhone":"9848726300","currentTDNum":"09409094","currentTDIssueDate":"2015-12-18","currenttdIssuePlaceDistrict":"KNP","citizenNum":"75100113562","isExactDateOfBirth":"true",
+    # "pieces":[{"name":"Citizenship Certificate Front","mimeType":"image/jpeg","label":"Citizenship Certificate Front","type":"Citizenship Certificate","value":"bea6b1bc4cbbfa69d720b1c351655de73c95d86cd126a243dd6d57f8e8d14c65"},{"name":"Citizenship Certificate Back","mimeType":"image/jpeg","label":"Citizenship Certificate Back","type":"Citizenship Certificate","value":"0c47520efe27fa5d1f11a80aef50e60f6095994539782f09db18502e587d6cb1"}],
+    # "enrollementCenterCode":"DOP",
+    # "appointment":{"id":10601649,"appointmentDate":"2025-11-16T00:00:00.000Z","timeSlot":"11:30","locationId":79,"isVip":false}}
+    
+    # location_token = "1a73dff26b66f5dd67403e250379bd80"
+
+    # binding.pry
+
     # Prepare request with captcha headers if provided
     request = create_request(:post, uri, body, location_token)
     
@@ -144,8 +152,6 @@ class PassportApiService
       request["Captchatext"] = captcha_text
       log("Adding captcha headers to form submission: Captchaid=#{captcha_id}, Captchatext=#{captcha_text}")
     end
-    
-    binding.pry
 
     response = make_request_with_headers(:post, uri, body, request)
     JSON.parse(response.body)
@@ -181,7 +187,6 @@ class PassportApiService
       begin
         # Create a fresh HTTP client for each request to avoid connection reuse issues
         http = create_http_client(uri)
-        binding.pry
         response = http.request(request)
         
         if response.code == "200"
